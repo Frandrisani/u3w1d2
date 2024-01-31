@@ -12,7 +12,10 @@ class SingleBook extends Component {
   render() {
     const cardBorderStyle = this.state.selected ? "border-danger border-4" : "";
     return (
-      <Card style={{ width: "18rem" }} className={cardBorderStyle}>
+      <Card
+        style={{ height: "42rem" }}
+        className={`d-flex flex-column ${cardBorderStyle}`}
+      >
         <Card.Img
           variant="top"
           style={{ height: "22rem" }}
@@ -23,7 +26,7 @@ class SingleBook extends Component {
             }));
           }}
         />
-        <Card.Body>
+        <Card.Body className="d-flex flex-column justify-content-between">
           <Card.Title className="text-start">{this.props.title}</Card.Title>
           <div className="d-flex justify-content-between align-items-center">
             <Card.Text className="fs-2 fw-semibold">
