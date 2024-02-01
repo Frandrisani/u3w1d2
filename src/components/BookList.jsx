@@ -33,24 +33,26 @@ class BookList extends Component {
           </Col>
         </Row>
         <Row className="justify-content-center mt-3 g-3">
-          {this.props.books.map((book) => {
-            return (
-              <Col
-                xs={12}
-                md={6}
-                lg={3}
-                className="text-center"
-                key={book.asin}
-              >
-                <SingleBook
-                  title={book.title}
-                  price={book.price}
-                  asin={book.asin}
-                  img={book.img}
-                />
-              </Col>
-            );
-          })}
+          {this.props.books
+            .filter((book) => book.title.includes(this.state.search))
+            .map((book) => {
+              return (
+                <Col
+                  xs={12}
+                  md={6}
+                  lg={3}
+                  className="text-center"
+                  key={book.asin}
+                >
+                  <SingleBook
+                    title={book.title}
+                    price={book.price}
+                    asin={book.asin}
+                    img={book.img}
+                  />
+                </Col>
+              );
+            })}
         </Row>
       </Container>
     );

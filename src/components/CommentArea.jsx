@@ -1,0 +1,95 @@
+import ListGroup from "react-bootstrap/ListGroup";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { Component } from "react";
+import AddComment from "./AddComment ";
+
+class CommentArea extends Component {
+  state = {
+    comment: "",
+    rate: "",
+    elementId: "",
+    click: false,
+  };
+
+  fetchReservations = () => {
+    fetch(
+      `https://striveschool-api.herokuapp.com/api/comments/${this.props.asin}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWFhM2IyNDE4N2U1YzAwMTgxNGM2MTAiLCJpYXQiOjE3MDY3OTczNzcsImV4cCI6MTcwODAwNjk3N30.iRsjpi4EqzSbkpsghfKY9rok4sAYMnFb2M2ENYgnFpU",
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Errore nella ricezione dati dal server");
+        }
+      })
+      .then((arrayOfReservations) => {
+        this.setState({
+          comment: arrayOfReservations.comment,
+          rate: arrayOfReservations.rate,
+          elementId: arrayOfReservations.elementId,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  componentDidMount() {
+    this.fetchReservations();
+  }
+
+  render() {
+    return (
+      <>
+        <div
+          className="modal show"
+          style={{ display: "block", position: "initial" }}
+        >
+          <Modal.Dialog>
+            <Modal.Header closeButton>
+              <Modal.Title>Sezione commenti</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <ListGroup as="ol" numbered>
+                {this.state.map((commenti) => {
+                  return (
+                    <ListGroup.Item
+                      as="li"
+                      className="d-flex justify-content-between align-items-start"
+                    >
+                      <div className="ms-2 me-auto">
+                        <div className="fw-bold">{commenti.rate}</div>
+                        {commenti.comment}
+                      </div>
+                    </ListGroup.Item>
+                  );
+                })}
+              </ListGroup>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="secondary"
+                onClick={() => this.setState({ click: !this.state.click })}
+              >
+                Lascia un commento
+              </Button>
+              {this.state.click === true && (
+                <AddComment asin={this.props.asin} />
+              )}
+            </Modal.Footer>
+          </Modal.Dialog>
+        </div>
+      </>
+    );
+  }
+}
+
+export default CommentArea;
