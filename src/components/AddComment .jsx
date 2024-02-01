@@ -6,24 +6,21 @@ class AddComment extends Component {
   state = {
     comment: "",
     rate: "",
-    elementId: "",
+    elementId: this.props.asin,
   };
 
-  handleSubmit = (e) => {
+  submit = (e) => {
     e.preventDefault();
     console.log("stato corrente", this.state);
-    fetch(
-      `https://striveschool-api.herokuapp.com/api/comments/${this.props.asin}`,
-      {
-        method: "POST",
-        body: JSON.stringify(this.state),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWFhM2IyNDE4N2U1YzAwMTgxNGM2MTAiLCJpYXQiOjE3MDY3OTczNzcsImV4cCI6MTcwODAwNjk3N30.iRsjpi4EqzSbkpsghfKY9rok4sAYMnFb2M2ENYgnFpU",
-        },
-      }
-    )
+    fetch(`https://striveschool-api.herokuapp.com/api/comments`, {
+      method: "POST",
+      body: JSON.stringify(this.state),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWFhM2IyNDE4N2U1YzAwMTgxNGM2MTAiLCJpYXQiOjE3MDY3OTczNzcsImV4cCI6MTcwODAwNjk3N30.iRsjpi4EqzSbkpsghfKY9rok4sAYMnFb2M2ENYgnFpU",
+      },
+    })
       .then((response) => {
         if (response.ok) {
           alert("Commento salvato");
@@ -42,17 +39,17 @@ class AddComment extends Component {
 
   render() {
     return (
-      <Form className="text-center" onSubmit={this.handleSubmit}>
+      <Form className="text-center" onSubmit={this.submit}>
         <Form.Group className="mb-3" controlId="comment">
           <Form.Label>Commento</Form.Label>
           <Form.Control
-            type="text-area"
+            type="textarea"
             placeholder="Lascia un commento"
             value={this.state.comment}
             onChange={(e) => {
               this.setState({
                 ...this.state,
-                comment: e.target.comment,
+                comment: e.target.value,
               });
             }}
           />
@@ -66,7 +63,7 @@ class AddComment extends Component {
             onChange={(e) => {
               this.setState({
                 ...this.state,
-                rate: e.target.rate,
+                rate: e.target.value,
               });
             }}
           >

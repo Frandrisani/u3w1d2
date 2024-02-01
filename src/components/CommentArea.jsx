@@ -6,8 +6,8 @@ import AddComment from "./AddComment ";
 
 class CommentArea extends Component {
   state = {
-    comment: "",
-    rate: "",
+    comment: [],
+    rate: 1,
     elementId: "",
     click: false,
   };
@@ -30,11 +30,9 @@ class CommentArea extends Component {
           throw new Error("Errore nella ricezione dati dal server");
         }
       })
-      .then((arrayOfReservations) => {
+      .then((array) => {
         this.setState({
-          comment: arrayOfReservations.comment,
-          rate: arrayOfReservations.rate,
-          elementId: arrayOfReservations.elementId,
+          comment: array,
         });
       })
       .catch((err) => {
@@ -59,11 +57,12 @@ class CommentArea extends Component {
             </Modal.Header>
             <Modal.Body>
               <ListGroup as="ol" numbered>
-                {this.state.map((commenti) => {
+                {this.state.comment.map((commenti) => {
                   return (
                     <ListGroup.Item
                       as="li"
                       className="d-flex justify-content-between align-items-start"
+                      key={commenti._id}
                     >
                       <div className="ms-2 me-auto">
                         <div className="fw-bold">{commenti.rate}</div>
