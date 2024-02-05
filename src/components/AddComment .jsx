@@ -39,7 +39,7 @@ class AddComment extends Component {
 
   render() {
     return (
-      <Form className="text-center" onSubmit={this.submit}>
+      <Form className="container-fluid text-start" onSubmit={this.submit}>
         <Form.Group className="mb-3" controlId="comment">
           <Form.Label>Commento</Form.Label>
           <Form.Control
@@ -82,7 +82,7 @@ class AddComment extends Component {
             required
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="warning" type="submit">
           Invia
         </Button>
       </Form>

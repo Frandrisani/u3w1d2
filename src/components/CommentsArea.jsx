@@ -48,28 +48,32 @@ class CommentsArea extends Component {
   }
 
   render() {
-    return (
+    return this.state.comment.length > 0 ? (
       <>
         <div
           className="modal show"
           style={{ display: "block", position: "initial" }}
         >
           <Modal.Dialog>
-            <Modal.Header closeButton>
-              <Modal.Title>Sezione commenti</Modal.Title>
+            <Modal.Header>
+              <Modal.Title className="fs-1">Sezione commenti</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <ListGroup as="ol" numbered>
+              <ListGroup>
                 {this.state.comment.map((commenti) => {
                   return (
                     <ListGroup.Item
                       as="li"
-                      className="d-flex justify-content-between align-items-start"
+                      className="d-flex justify-content-between align-items-start border border-warning "
                       key={commenti._id}
                     >
                       <div className="ms-2 me-auto">
-                        <div className="fw-bold">{commenti.rate}</div>
-                        {commenti.comment}
+                        <div className="fw-bold text-start fs-3">
+                          Voto: {commenti.rate}/5
+                        </div>
+                        <div className="text-start fs-4">
+                          {commenti.comment}
+                        </div>
                       </div>
                     </ListGroup.Item>
                   );
@@ -78,7 +82,34 @@ class CommentsArea extends Component {
             </Modal.Body>
             <Modal.Footer>
               <Button
-                variant="secondary"
+                variant="warning"
+                onClick={() => this.setState({ click: !this.state.click })}
+              >
+                Lascia un commento
+              </Button>
+              {this.state.click === true && (
+                <AddComment asin={this.props.asinBook} />
+              )}
+            </Modal.Footer>
+          </Modal.Dialog>
+        </div>
+      </>
+    ) : (
+      <>
+        <div
+          className="modal show"
+          style={{ display: "block", position: "initial" }}
+        >
+          <Modal.Dialog>
+            <Modal.Header>
+              <Modal.Title className="fs-1">Sezione commenti</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Nessun commento inserito! Commenta per primo</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="warning"
                 onClick={() => this.setState({ click: !this.state.click })}
               >
                 Lascia un commento

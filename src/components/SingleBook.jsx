@@ -29,7 +29,7 @@ class SingleBook extends Component {
           <Card.Body className="d-flex flex-column justify-content-between">
             <Card.Title className="text-start">{this.props.title}</Card.Title>
             <div>
-              <Card.Text className="fs-2 fw-semibold text-start">
+              <Card.Text className="fs-2 fw-semibold text-start text-warning">
                 €{this.props.price}
               </Card.Text>
               <Card.Text className="font-monospace text-start">
@@ -37,7 +37,7 @@ class SingleBook extends Component {
               </Card.Text>
             </div>
             <div className="d-grid gap-2 ">
-              <Button variant="success" size="lg">
+              <Button variant="warning" size="lg">
                 Buy Now
               </Button>
               <Button variant="info" size="lg">
