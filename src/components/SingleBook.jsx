@@ -1,7 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Component } from "react";
-import CommentArea from "./CommentArea";
 
 class SingleBook extends Component {
   state = {
@@ -24,15 +23,16 @@ class SingleBook extends Component {
               this.setState((precedenteStato) => ({
                 selected: !precedenteStato.selected,
               }));
+              this.props.funzioneChangAsin(this.props.asin);
             }}
           />
           <Card.Body className="d-flex flex-column justify-content-between">
             <Card.Title className="text-start">{this.props.title}</Card.Title>
-            <div className="d-flex justify-content-between align-items-center">
-              <Card.Text className="fs-2 fw-semibold">
+            <div>
+              <Card.Text className="fs-2 fw-semibold text-start">
                 €{this.props.price}
               </Card.Text>
-              <Card.Text className="font-monospace">
+              <Card.Text className="font-monospace text-start">
                 {this.props.asin}
               </Card.Text>
             </div>
@@ -46,7 +46,6 @@ class SingleBook extends Component {
             </div>
           </Card.Body>
         </Card>
-        {this.state.selected && <CommentArea asin={this.props.asin} />}
       </>
     );
   }

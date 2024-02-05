@@ -49,6 +49,7 @@ class BookList extends Component {
                     price={book.price}
                     asin={book.asin}
                     img={book.img}
+                    funzioneChangAsin={this.props.funzioneChangAsin}
                   />
                 </Col>
               );
