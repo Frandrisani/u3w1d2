@@ -12,11 +12,17 @@ import { Col, Container, Row } from "react-bootstrap";
 class App extends Component {
   state = {
     asinBooks: "",
+    startValue: true,
   };
 
   changeAsin = (newAsin) => {
     this.setState({
       asinBooks: newAsin,
+    });
+  };
+  changeStartValue = (newStartValue) => {
+    this.setState({
+      startValue: newStartValue,
     });
   };
 
@@ -34,10 +40,15 @@ class App extends Component {
                 <BookList
                   books={horrorData}
                   funzioneChangAsin={this.changeAsin}
+                  funzioneChangStartValue={this.changeStartValue}
+                  startValue={this.state.startValue}
                 />
               </Col>
               <Col xs={4}>
-                <CommentsArea asinBook={this.state.asinBooks} />
+                <CommentsArea
+                  asinBook={this.state.asinBooks}
+                  startValue={this.state.startValue}
+                />
               </Col>
             </Row>
           </Container>

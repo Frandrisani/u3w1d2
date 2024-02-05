@@ -50,6 +50,8 @@ class BookList extends Component {
                     asin={book.asin}
                     img={book.img}
                     funzioneChangAsin={this.props.funzioneChangAsin}
+                    funzioneChangStartValue={this.props.funzioneChangStartValue}
+                    startValue={this.props.startValue}
                   />
                 </Col>
               );

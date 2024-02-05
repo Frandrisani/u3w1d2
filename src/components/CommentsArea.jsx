@@ -48,7 +48,23 @@ class CommentsArea extends Component {
   }
 
   render() {
-    return this.state.comment.length > 0 ? (
+    return this.props.startValue === true ? (
+      <>
+        <div
+          className="modal show"
+          style={{ display: "block", position: "initial" }}
+        >
+          <Modal.Dialog>
+            <Modal.Header>
+              <Modal.Title className="fs-1">Sezione commenti</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Selezione un libro per leggere o lasciare un commento</p>
+            </Modal.Body>
+          </Modal.Dialog>
+        </div>
+      </>
+    ) : this.state.comment.length > 0 ? (
       <>
         <div
           className="modal show"

@@ -24,6 +24,7 @@ class SingleBook extends Component {
                 selected: !precedenteStato.selected,
               }));
               this.props.funzioneChangAsin(this.props.asin);
+              this.props.funzioneChangStartValue(!this.props.startValue);
             }}
           />
           <Card.Body className="d-flex flex-column justify-content-between">
