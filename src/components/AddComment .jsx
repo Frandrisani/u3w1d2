@@ -1,20 +1,21 @@
-import { Component } from "react";
+import { Component, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-class AddComment extends Component {
-  state = {
-    comment: "",
-    rate: "",
-    elementId: this.props.asin,
-  };
+const AddComment = function (props) {
+  const [comment, setComment] = useState("");
+  const [rate, setRate] = useState("");
+  const [elementId, setElementId] = useState(props.asin);
 
-  submit = (e) => {
+  const submit = (e) => {
     e.preventDefault();
-    console.log("stato corrente", this.state);
     fetch(`https://striveschool-api.herokuapp.com/api/comments`, {
       method: "POST",
-      body: JSON.stringify(this.state),
+      body: JSON.stringify({
+        comment: comment,
+        rate: rate,
+        elementId: elementId,
+      }),
       headers: {
         "Content-Type": "application/json",
         Authorization:
@@ -24,10 +25,8 @@ class AddComment extends Component {
       .then((response) => {
         if (response.ok) {
           alert("Commento salvato");
-          this.setState({
-            comment: "",
-            rate: 1,
-          });
+          setComment("");
+          setRate(1);
         } else {
           throw new Error("Errore nel salvataggio del commento");
         }
@@ -37,56 +36,48 @@ class AddComment extends Component {
       });
   };
 
-  render() {
-    return (
-      <Form className="container-fluid text-start" onSubmit={this.submit}>
-        <Form.Group className="mb-3" controlId="comment">
-          <Form.Label>Commento</Form.Label>
-          <Form.Control
-            type="textarea"
-            placeholder="Lascia un commento"
-            value={this.state.comment}
-            onChange={(e) => {
-              this.setState({
-                ...this.state,
-                comment: e.target.value,
-              });
-            }}
-          />
-        </Form.Group>
+  return (
+    <Form className="container-fluid text-start" onSubmit={submit}>
+      <Form.Group className="mb-3" controlId="comment">
+        <Form.Label>Commento</Form.Label>
+        <Form.Control
+          type="textarea"
+          placeholder="Lascia un commento"
+          value={comment}
+          onChange={(e) => {
+            setComment(e.target.value);
+          }}
+        />
+      </Form.Group>
 
-        <Form.Group className="mb-3" controlId="rate">
-          <Form.Select
-            aria-label="Voto"
-            required
-            value={this.state.rate}
-            onChange={(e) => {
-              this.setState({
-                ...this.state,
-                rate: e.target.value,
-              });
-            }}
-          >
-            <option>Lascia un voto</option>
-            <option value="1">Pessimo</option>
-            <option value="2">Decente</option>
-            <option value="3">Buono</option>
-            <option value="3">Ottimo</option>
-            <option value="3">Super!</option>
-          </Form.Select>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="Check">
-          <Form.Check
-            type="checkbox"
-            label="Accetto i termini privacy"
-            required
-          />
-        </Form.Group>
-        <Button variant="warning" type="submit">
-          Invia
-        </Button>
-      </Form>
-    );
-  }
-}
+      <Form.Group className="mb-3" controlId="rate">
+        <Form.Select
+          aria-label="Voto"
+          required
+          value={rate}
+          onChange={(e) => {
+            setRate(e.target.value);
+          }}
+        >
+          <option>Lascia un voto</option>
+          <option value="1">Pessimo</option>
+          <option value="2">Decente</option>
+          <option value="3">Buono</option>
+          <option value="3">Ottimo</option>
+          <option value="3">Super!</option>
+        </Form.Select>
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="Check">
+        <Form.Check
+          type="checkbox"
+          label="Accetto i termini privacy"
+          required
+        />
+      </Form.Group>
+      <Button variant="warning" type="submit">
+        Invia
+      </Button>
+    </Form>
+  );
+};
 export default AddComment;

@@ -3,62 +3,56 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import SingleBook from "./SingleBook";
 import Form from "react-bootstrap/Form";
-import { Component } from "react";
+import { useState } from "react";
 
-class BookList extends Component {
-  state = {
-    search: "",
-  };
+const BookList = function (props) {
+  const [search, setSearch] = useState("");
 
-  render() {
-    return (
-      <Container className="pt-3">
-        <Row>
-          <Col>
-            <Form>
-              <Form.Group className="mb-3" controlId="cerca">
-                <Form.Label>Search</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Cerca un libro"
-                  value={this.state.search}
-                  onChange={(e) => {
-                    this.setState({
-                      search: e.target.value,
-                    });
-                  }}
+  return (
+    <Container className="pt-3">
+      <Row>
+        <Col>
+          <Form>
+            <Form.Group className="mb-3" controlId="cerca">
+              <Form.Label>Search</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Cerca un libro"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+              />
+            </Form.Group>
+          </Form>
+        </Col>
+      </Row>
+      <Row className="justify-content-center mt-3 g-3">
+        {props.books
+          .filter((book) => book.title.includes(search))
+          .map((book) => {
+            return (
+              <Col
+                xs={12}
+                md={6}
+                lg={3}
+                className="text-center"
+                key={book.asin}
+              >
+                <SingleBook
+                  title={book.title}
+                  price={book.price}
+                  asin={book.asin}
+                  img={book.img}
+                  funzioneChangAsin={props.funzioneChangAsin}
+                  funzioneChangStartValue={props.funzioneChangStartValue}
+                  startValue={props.startValue}
                 />
-              </Form.Group>
-            </Form>
-          </Col>
-        </Row>
-        <Row className="justify-content-center mt-3 g-3">
-          {this.props.books
-            .filter((book) => book.title.includes(this.state.search))
-            .map((book) => {
-              return (
-                <Col
-                  xs={12}
-                  md={6}
-                  lg={3}
-                  className="text-center"
-                  key={book.asin}
-                >
-                  <SingleBook
-                    title={book.title}
-                    price={book.price}
-                    asin={book.asin}
-                    img={book.img}
-                    funzioneChangAsin={this.props.funzioneChangAsin}
-                    funzioneChangStartValue={this.props.funzioneChangStartValue}
-                    startValue={this.props.startValue}
-                  />
-                </Col>
-              );
-            })}
-        </Row>
-      </Container>
-    );
-  }
-}
+              </Col>
+            );
+          })}
+      </Row>
+    </Container>
+  );
+};
 export default BookList;
